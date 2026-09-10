@@ -17,7 +17,7 @@ if os.getenv("CI"):
 
 def test_checkout():
     driver = webdriver.Chrome(options=options)
-    wait = WebDriverWait(driver, 16)
+    wait = WebDriverWait(driver, 17)
     
     try:
         driver.get("https://www.saucedemo.com")

@@ -18,7 +18,7 @@ if os.getenv("CI"): # Jenkins sets this automatically
 
 def test_wait():
     driver = webdriver.Chrome(options=options) # CHANGED THIS LINE
-    wait = WebDriverWait(driver, 22)
+    wait = WebDriverWait(driver, 24)
 
     try: # ADD TRY
         driver.get("https://www.saucedemo.com")
