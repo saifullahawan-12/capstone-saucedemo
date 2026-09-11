@@ -1,4 +1,5 @@
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -22,13 +23,13 @@ def test_checkout():
     try:
         driver.get("https://www.saucedemo.com")
         
-        # Login + add 1 item
+
         wait.until(EC.visibility_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
         driver.find_element(By.ID, "password").send_keys("secret_sauce")
         driver.find_element(By.ID, "login-button").click()
         wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "btn_inventory"))).click()
         
-        # Checkout flow
+      
         driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
         driver.find_element(By.ID, "checkout").click()
         wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("Test")
@@ -36,8 +37,9 @@ def test_checkout():
         driver.find_element(By.ID, "postal-code").send_keys("12345")
         driver.find_element(By.ID, "continue").click()
         driver.find_element(By.ID, "finish").click()
+        time.sleep(2)
         
-        # Verify success
+      
         success = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "complete-header")))
         assert "Thank you" in success.text
         
