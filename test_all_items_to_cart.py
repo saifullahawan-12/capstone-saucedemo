@@ -37,7 +37,7 @@ def test_all_items_to_cart():
         
         cart_button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link")))
         driver.execute_script("arguments[0].click();", cart_button) 
-        time.sleep(1)
+        time.sleep(3)
 
         
         cart_items = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "cart_item")))
