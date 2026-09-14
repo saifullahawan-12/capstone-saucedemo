@@ -37,7 +37,7 @@ def test_checkout():
         driver.find_element(By.ID, "postal-code").send_keys("12345")
         driver.find_element(By.ID, "continue").click()
         driver.find_element(By.ID, "finish").click()
-        time.sleep(2)
+        time.sleep(5)
         
       
         success = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "complete-header")))
