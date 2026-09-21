@@ -29,7 +29,7 @@ def test_checkout():
         wait.until(EC.url_contains("cart.html"))
         wait.until(EC.element_to_be_clickable((By.ID, "checkout"))).click()
 
-        # FIX 1: wait for each field separately - this is the main fix
+       
         first_name = wait.until(EC.visibility_of_element_located((By.ID, "first-name")))
         first_name.clear()
         first_name.send_keys("Test")
@@ -42,12 +42,12 @@ def test_checkout():
         postal.clear()
         postal.send_keys("12345")
 
-        # FIX 2: scroll + js click
+        
         continue_btn = wait.until(EC.element_to_be_clickable((By.ID, "continue")))
         driver.execute_script("arguments[0].scrollIntoView(true);", continue_btn)
         driver.execute_script("arguments[0].click();", continue_btn)
 
-        # FIX 3: if it still stays on same page, print the error
+    
         try:
             wait.until(EC.url_contains("checkout-step-two.html"))
         except:
