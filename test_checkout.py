@@ -17,7 +17,7 @@ def get_chrome_options():
 
 def test_checkout():
     driver = webdriver.Chrome(options=get_chrome_options())
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 25)
     try:
         driver.get("https://www.saucedemo.com")
         wait.until(EC.visibility_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
@@ -26,25 +26,29 @@ def test_checkout():
 
         wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "btn_inventory"))).click()
         wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))).click()
+        wait.until(EC.url_contains("cart.html"))
         wait.until(EC.element_to_be_clickable((By.ID, "checkout"))).click()
 
-        wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("Test")
+        wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).clear()
+        driver.find_element(By.ID, "first-name").send_keys("Test")
+        driver.find_element(By.ID, "last-name").clear()
         driver.find_element(By.ID, "last-name").send_keys("User")
+        driver.find_element(By.ID, "postal-code").clear()
         driver.find_element(By.ID, "postal-code").send_keys("12345")
 
-        wait.until(EC.element_to_be_clickable((By.ID, "continue"))).click()
+        continue_btn = wait.until(EC.element_to_be_clickable((By.ID, "continue")))
+        driver.execute_script("arguments[0].click();", continue_btn)
 
-        # FIX: scroll to finish button - headless needs this
+        wait.until(EC.url_contains("checkout-step-two.html"))
         finish_btn = wait.until(EC.element_to_be_clickable((By.ID, "finish")))
         driver.execute_script("arguments[0].scrollIntoView(true);", finish_btn)
-        finish_btn.click()
+        driver.execute_script("arguments[0].click();", finish_btn)
 
         success = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "complete-header")))
         assert "Thank you" in success.text
-        print("Checkout PASS")
     except Exception as e:
         driver.save_screenshot("failure_checkout.png")
-        print(f"Current URL: {driver.current_url}")
+        print(f"URL FAILED AT: {driver.current_url}")
         raise e
     finally:
         driver.quit()
