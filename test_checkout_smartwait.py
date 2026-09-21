@@ -26,25 +26,31 @@ def test_wait():
 
         wait.until(EC.element_to_be_clickable((By.ID, "add-to-cart-sauce-labs-backpack"))).click()
         wait.until(EC.element_to_be_clickable((By.ID, "add-to-cart-sauce-labs-bike-light"))).click()
-        wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))).click()
-        wait.until(EC.element_to_be_clickable((By.ID, "checkout"))).click()
 
-        # Increased timeout for this page
+        cart_link = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link")))
+        driver.execute_script("arguments[0].click();", cart_link)
+        wait.until(EC.url_contains("cart.html"))
+
+        checkout_btn = wait.until(EC.element_to_be_clickable((By.ID, "checkout")))
+        driver.execute_script("arguments[0].click();", checkout_btn)
+
         wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("Saif")
         driver.find_element(By.ID, "last-name").send_keys("Awan")
         driver.find_element(By.ID, "postal-code").send_keys("22600")
-        wait.until(EC.element_to_be_clickable((By.ID, "continue"))).click()
 
+        continue_btn = wait.until(EC.element_to_be_clickable((By.ID, "continue")))
+        driver.execute_script("arguments[0].click();", continue_btn)
+
+        wait.until(EC.url_contains("checkout-step-two.html"))
         finish = wait.until(EC.element_to_be_clickable((By.ID, "finish")))
         driver.execute_script("arguments[0].scrollIntoView(true);", finish)
-        finish.click()
+        driver.execute_script("arguments[0].click();", finish)
 
         success_message = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "complete-header"))).text
         assert success_message == "Thank you for your order!"
-        print(success_message)
     except Exception as e:
         driver.save_screenshot("failure_wait.png")
-        print(f"URL: {driver.current_url}")
+        print(f"FAILED AT URL: {driver.current_url}")
         raise e
     finally:
         driver.quit()
