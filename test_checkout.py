@@ -28,6 +28,7 @@ def test_checkout():
         driver.find_element(By.ID, "password").send_keys("secret_sauce")
         driver.find_element(By.ID, "login-button").click()
         wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "btn_inventory"))).click()
+        time.sleep(3)
         
       
         driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
