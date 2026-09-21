@@ -43,7 +43,7 @@ def test_all_items_to_cart():
         cart_items = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "cart_item")))
         assert len(cart_items) == 6
         print("SUCCESS: All 6 items in cart")
-        time.sleep(8)
+        time.sleep(10)
 
     except Exception as e:
         driver.save_screenshot("failure_all_items.png")
