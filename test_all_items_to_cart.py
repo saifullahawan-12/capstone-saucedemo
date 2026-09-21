@@ -1,3 +1,5 @@
+import os
+import time
 import tempfile
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,7 +15,7 @@ def get_chrome_options():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--remote-allow-origins=*")
-    # FIX: unique temp folder for each worker in parallel
+   
     options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
     return options
 
