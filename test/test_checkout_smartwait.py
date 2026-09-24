@@ -54,3 +54,4 @@ def test_wait():
         raise e
     finally:
         driver.quit()
+
