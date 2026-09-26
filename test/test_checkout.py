@@ -71,4 +71,4 @@ def test_checkout():
         print(f"URL FAILED AT: {driver.current_url}")
         raise e
     finally:
-        driver.quit
+        driver.quit()
