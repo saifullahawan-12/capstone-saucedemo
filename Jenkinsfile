@@ -1,21 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11-slim'
-            args '-u root'
-        }
-    }
+    agent any
     stages {
         stage('Setup') {
             steps {
-                echo 'Starting Capstone Pipeline - Dockerized...'
-                sh 'python --version'
-                sh 'pip install -r requirements.txt'
+                echo 'Starting Capstone Pipeline - Docker Ready...'
+                bat '"C:\\Users\\New Computer Arena\\AppData\\Local\\Programs\\Python\\Python314\\python.exe" --version'
+                bat '"C:\\Users\\New Computer Arena\\AppData\\Local\\Programs\\Python\\Python314\\python.exe" -m pip install -r requirements.txt'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest -v --html=report.html --self-contained-html -n 2'
+                bat '"C:\\Users\\New Computer Arena\\AppData\\Local\\Programs\\Python\\Python314\\python.exe" -m pytest -v --html=report.html --self-contained-html -n 2'
             }
         }
     }
@@ -27,7 +22,7 @@ pipeline {
                 keepAll: true, 
                 reportDir: '.', 
                 reportFiles: 'report.html', 
-                reportName: 'Capstone Docker Report'
+                reportName: 'Capstone Test Report'
             ])
             emailext(
                 subject: "Capstone Build: ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
@@ -42,10 +37,10 @@ pipeline {
             )
         }
         success {
-            echo 'Build PASSED - Dockerized CI Complete - Ready for CD!'
+            echo 'Build PASSED - Ready for CD!'
         }
         failure {
-            echo 'Build FAILED - Check Email & Report!'
+            echo 'Build FAILED!'
         }
     }
 }
